@@ -2,6 +2,8 @@ package com.example.perfumaria;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -33,6 +36,7 @@ public class GeradorActivity extends AppCompatActivity {
 
     private Button btGerar;
     private Button btClear;
+    private Button copy;
 
     int dig1;
     int dig2;
@@ -45,13 +49,23 @@ public class GeradorActivity extends AppCompatActivity {
     int dig9;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_gerador);
         bind();
         init();
+        keyboardOpen();
         digito1.requestFocus();
+    }
+
+    public void keyboardOpen() {
+
+        InputMethodManager inm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inm.toggleSoftInput(InputMethodManager.RESULT_SHOWN, 0);
     }
 
     private void bind() {
@@ -68,6 +82,7 @@ public class GeradorActivity extends AppCompatActivity {
         digito11 = findViewById(R.id.dig11);
         btClear = findViewById(R.id.btlimp);
         btGerar = findViewById(R.id.btnGera);
+        copy = findViewById(R.id.btSalvar);
 
     }
 
@@ -84,6 +99,10 @@ public class GeradorActivity extends AppCompatActivity {
         digito9.addTextChangedListener(new DigitTextWatch(digito9));
         digito1.requestFocus();
 
+       // btGerar.setBackgroundResource(R.color.dark_grey);
+       // btClear.setBackgroundResource(R.color.dark_grey);
+       // copy.setBackgroundResource(R.color.blue);
+
         btGerar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,12 +117,29 @@ public class GeradorActivity extends AppCompatActivity {
             }
         });
 
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                copia();
+                if (digito1.getText().toString().isEmpty() || digito2.getText().toString().isEmpty() || digito3.getText().toString().isEmpty() || digito4.getText().toString().isEmpty()
+                        || digito5.getText().toString().isEmpty() || digito6.getText().toString().isEmpty() || digito7.getText().toString().isEmpty() || digito8.getText().toString().isEmpty() || digito9.getText().toString().isEmpty() ) {
+
+                    Toast.makeText(GeradorActivity.this, "Insira um CPF válido para copiar", Toast.LENGTH_SHORT).show();
+                }
+                else{
+
+                    Toast.makeText(GeradorActivity.this, "CPF copiado", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
     }
 
     public void random() {
 
         Random rand = new Random();
+
         dig1 = rand.nextInt(9) + 1;
         dig2 = rand.nextInt(9) + 1;
         dig3 = rand.nextInt(9) + 1;
@@ -143,6 +179,25 @@ public class GeradorActivity extends AppCompatActivity {
         //exibir
         digito10.setText(String.valueOf(dig10));
         digito11.setText(String.valueOf(dig11));
+
+        if (
+                dig1 == 1 && dig2 == 1 && dig3 == 1 && dig4 == 1 && dig5 == 1 && dig6 == 1 && dig7 == 1 && dig8 == 1 && dig9 == 1 ||
+                        dig1 == 2 && dig2 == 2 && dig3 == 2 && dig4 == 2 && dig5 == 2 && dig6 == 2 && dig7 == 2 && dig8 == 2 && dig9 == 2 ||
+                        dig1 == 3 && dig2 == 3 && dig3 == 3 && dig4 == 3 && dig5 == 3 && dig6 == 3 && dig7 == 3 && dig8 == 3 && dig9 == 3 ||
+                        dig1 == 4 && dig2 == 4 && dig3 == 4 && dig4 == 4 && dig5 == 4 && dig6 == 4 && dig7 == 4 && dig8 == 4 && dig9 == 4 ||
+                        dig1 == 5 && dig2 == 5 && dig3 == 5 && dig4 == 5 && dig5 == 5 && dig6 == 5 && dig7 == 5 && dig8 == 5 && dig9 == 5 ||
+                        dig1 == 6 && dig2 == 6 && dig3 == 6 && dig4 == 6 && dig5 == 6 && dig6 == 6 && dig7 == 6 && dig8 == 6 && dig9 == 6 ||
+                        dig1 == 7 && dig2 == 7 && dig3 == 7 && dig4 == 7 && dig5 == 7 && dig6 == 7 && dig7 == 7 && dig8 == 7 && dig9 == 7 ||
+                        dig1 == 8 && dig2 == 8 && dig3 == 8 && dig4 == 8 && dig5 == 8 && dig6 == 8 && dig7 == 8 && dig8 == 8 && dig9 == 8 ||
+                        dig1 == 9 && dig2 == 9 && dig3 == 9 && dig4 == 9 && dig5 == 9 && dig6 == 9 && dig7 == 9 && dig8 == 9 && dig9 == 9
+
+        ) {
+            Toast.makeText(this, "CPF não é válido", Toast.LENGTH_SHORT).show();
+        }
+        else {
+           // Toast.makeText(this, "CPF válido", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
@@ -178,6 +233,18 @@ public class GeradorActivity extends AppCompatActivity {
         closeKeyboard();
     }
 
+    public void copia(){
+
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("text",
+                digito1.getText() + "" + digito2.getText() + "" + digito3.getText() + "." +
+                        digito4.getText() + "" + digito5.getText() + "" + digito6.getText() + "." +
+                digito7.getText() + "" + digito8.getText() + "" + digito9.getText() +
+                "-" + digito10.getText() + "" + digito11.getText());
+        clipboard.setPrimaryClip(clip);
+
+    }
+
 
     public void limparCamposCPF() {
         digito1.setText("");
@@ -194,9 +261,10 @@ public class GeradorActivity extends AppCompatActivity {
         digito1.requestFocus();
 
         InputMethodManager inm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+       inm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 
     }
+
 
 
     private class DigitTextWatch implements TextWatcher {
@@ -216,11 +284,6 @@ public class GeradorActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             verificadorCampos(digitos);
-        }
-
-
-        @Override
-        public void afterTextChanged(Editable s) {
 
             String text = s.toString();
 
@@ -235,66 +298,100 @@ public class GeradorActivity extends AppCompatActivity {
                 case R.id.dig2:
                     if (text.length() == 1) {
                         digito3.requestFocus();
-                    } else {
-                        digito1.requestFocus();
                     }
                     break;
                 case R.id.dig3:
                     if (text.length() == 1) {
                         digito4.requestFocus();
-                    }else {
-                        digito2.requestFocus();
                     }
                     break;
                 case R.id.dig4:
                     if (text.length() == 1) {
                         digito5.requestFocus();
-                    }else {
-                        digito3.requestFocus();
                     }
                     break;
                 case R.id.dig5:
                     if (text.length() == 1) {
                         digito6.requestFocus();
-                    }else {
-                        digito4.requestFocus();
                     }
                     break;
                 case R.id.dig6:
                     if (text.length() == 1) {
                         digito7.requestFocus();
-                    }else {
-                        digito5.requestFocus();
                     }
                     break;
                 case R.id.dig7:
                     if (text.length() == 1) {
                         digito8.requestFocus();
-                    }else {
-                        digito6.requestFocus();
                     }
                     break;
                 case R.id.dig8:
-
                     if (text.length() == 1) {
                         digito9.requestFocus();
-                    } else {
-                        digito7.requestFocus();
+
                     }
 
                     break;
                 case R.id.dig9:
-                    if (text.length() == 0) {
+                    if (text.isEmpty()) {
                         digito8.requestFocus();
                         digito10.setText("");
                         digito11.setText("");
                     }
                     break;
+            }
+        }
 
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            String texts = s.toString();
+
+            switch (view.getId()) {
+                case R.id.dig9:
+                    if (texts.isEmpty()) {
+                        digito8.requestFocus();
+                    }
+
+                    break;
+                case R.id.dig8:
+                    if (texts.isEmpty()) {
+                        digito7.requestFocus();
+                    }
+                    break;
+                case R.id.dig7:
+                    if (texts.isEmpty()) {
+                        digito6.requestFocus();
+                    }
+                    break;
+                case R.id.dig6:
+                    if (texts.isEmpty()) {
+                        digito5.requestFocus();
+                    }
+                    break;
+                case R.id.dig5:
+                    if (texts.isEmpty()) {
+                        digito4.requestFocus();
+                    }
+                    break;
+                case R.id.dig4:
+                    if (texts.isEmpty()) {
+                        digito3.requestFocus();
+                    }
+                    break;
+                case R.id.dig3:
+                    if (texts.isEmpty()) {
+                        digito2.requestFocus();
+                    }
+                    break;
+                case R.id.dig2:
+                    if (texts.isEmpty()) {
+                        digito1.requestFocus();
+                    }
+                    break;
 
             }
-
-
 
 
         }
