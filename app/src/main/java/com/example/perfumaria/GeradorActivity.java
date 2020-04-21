@@ -38,6 +38,12 @@ public class GeradorActivity extends AppCompatActivity {
     private Button btClear;
     private Button copy;
 
+    private Button btn1;
+    private Button btn4;
+    private Button btn5;
+    private Button btn6;
+    private Button btn9;
+
     int dig1;
     int dig2;
     int dig3;
@@ -83,7 +89,11 @@ public class GeradorActivity extends AppCompatActivity {
         btClear = findViewById(R.id.btlimp);
         btGerar = findViewById(R.id.btnGera);
         copy = findViewById(R.id.btSalvar);
-
+        btn1 = findViewById(R.id.btn1);
+        btn4 = findViewById(R.id.btn4);
+        btn5 = findViewById(R.id.btn5);
+        btn6 = findViewById(R.id.btn6);
+        btn9 = findViewById(R.id.btn9);
     }
 
     private void init() {
@@ -133,7 +143,133 @@ public class GeradorActivity extends AppCompatActivity {
             }
         });
 
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                geraDigito1();
+            }
+        });
 
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                geraDigito4();
+            }
+        });
+
+        btn5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                geraDigito5();
+            }
+        });
+
+        btn6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                geraDigito6();
+            }
+        });
+
+
+
+        btn9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                geraDigito9();
+            }
+        });
+
+
+    }
+
+    public void geraDigito1() {
+
+        int i = 0;
+        while (i < 5) {
+
+            if (digito11.getText().toString().equals("1")) {
+
+                break;
+
+            } else {
+
+                gerarCPF();
+            }
+
+        }
+    }
+
+    public void geraDigito4() {
+
+       int i = 0;
+       while (i < 5) {
+
+           if (digito11.getText().toString().equals("4")) {
+
+               break;
+
+           } else {
+
+               gerarCPF();
+           }
+
+       }
+
+    }
+
+    public void geraDigito5() {
+
+        int i = 0;
+        while (i < 5) {
+
+            if (digito11.getText().toString().equals("5")) {
+
+                break;
+
+            } else {
+
+                gerarCPF();
+            }
+
+        }
+
+    }
+
+    public void geraDigito6() {
+
+        int i = 0;
+        while (i < 5) {
+
+            if (digito11.getText().toString().equals("6")) {
+
+                break;
+
+            } else {
+
+                gerarCPF();
+            }
+
+        }
+
+    }
+
+
+    public void geraDigito9() {
+
+        int i = 0;
+        while (i < 5) {
+
+            if (digito11.getText().toString().equals("9")) {
+
+                break;
+
+            } else {
+
+                gerarCPF();
+            }
+
+        }
     }
 
     public void random() {
@@ -291,9 +427,7 @@ public class GeradorActivity extends AppCompatActivity {
                 case R.id.dig1:
                     if (text.length() == 1) {
                         digito2.requestFocus();
-
                     }
-
                     break;
                 case R.id.dig2:
                     if (text.length() == 1) {
